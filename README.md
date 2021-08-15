@@ -17,3 +17,24 @@ const shipping = Math.min(order.quantity * order.itemPrice * 0.1, 100);
 return basePrice - quantityDiscount + shipping;
 ```
 - クラスのコンテキストの中でも、basePrice、quantityDiscount、shippingをメソッドとして抽出ができる。
+
+## 変数のカプセル化
+- before
+```
+let defaultOwner = {firstName: "Martin", lastName: "Fowler"};
+```
+
+- after
+```
+let defaultOwnerData = {firstName: "Martin", lastName: "Fowler"};
+export function defaultOwner() {return defaultOwnerData;}
+export function setDefaultOwner(arg) {defaultOwnerData = arg;}
+```
+- 参照の利用と再代入を制御する
+- 値のあらゆる変更を禁止する
+
+
+```
+export function defaultOwner() {return Object.assign({}, defaultOwnerData);}
+
+```
