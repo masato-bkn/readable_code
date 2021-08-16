@@ -38,3 +38,27 @@ export function setDefaultOwner(arg) {defaultOwnerData = arg;}
 export function defaultOwner() {return Object.assign({}, defaultOwnerData);}
 
 ```
+
+## パラメータオブジェクトの導入
+- before
+```
+function amountInvoiced(startDate, endDate) {}
+```
+
+- after
+```
+function amountInvoiced(aDateRange) {}
+```
+- パラメータオブジェクトとして、新たな構造体を作成する
+- オブジェクトに新たな振る舞いを移設できるという利点
+
+```
+function readingsOutsideRange(station, range) {
+  return station.readings.filter(r => !range.contains(r.temp));
+}
+```
+
+```
+class NumberRange
+  contains(arg) {return (arg >= this.min && arg <= this.max);}
+```
