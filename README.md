@@ -81,3 +81,29 @@ function enrichReading(argReading) {
 ```
 
 - 元のデータが更新される場合は、クラスに集約した方がよさそうではある
+
+## フェーズの分離
+- before
+```
+const orderData = orderString.split(/\s+/)
+const productPrice = priceList[orderData[0].split("-")[1]];
+const orderPrice = parseInt(orderData[1]) * productPrise;
+```
+
+- after
+```
+const orderRecord = parseOrder(order);
+const orderPrice = price(orderRecord, priceList);
+
+function parseOrder(aString) {
+    const values = aString.split(/\s+/);
+    return ({
+      productID = values[0].split("-")[1],
+      quantity: parseInt(values[1]),
+    });
+}
+
+function price(order, priceList) {
+  return order * priceList[order.productID];
+};
+```
