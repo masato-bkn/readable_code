@@ -62,3 +62,22 @@ function readingsOutsideRange(station, range) {
 class NumberRange
   contains(arg) {return (arg >= this.min && arg <= this.max);}
 ```
+
+## 関数群の変換への集約
+- before
+```
+function base(aReading) {...}
+function taxableCharge(aReading) {...}
+```
+
+- after
+```
+function enrichReading(argReading) {
+  const aReading = _.cloneDeep(argReading);
+  aReading.baseCharge = base(argReading);
+  aReading.taxableCharge = taxableCharge(argReading);
+  return aReading;
+}
+```
+
+- 元のデータが更新される場合は、クラスに集約した方がよさそうではある
