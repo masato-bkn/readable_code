@@ -107,3 +107,25 @@ function price(order, priceList) {
   return order * priceList[order.productID];
 };
 ```
+
+## コレクションのカプセル化
+- before
+```
+class Person {
+  get courses() {return this._courses;}
+  set courses(aList) {this._course = course}
+}
+```
+
+- after
+```
+class Person {
+  get courses() {return _courses.slice();}
+  addCourse(aCourse) { ... }
+  removeCourse(aCourse) { ... }
+}
+```
+
+- コレクションを管理する責任のあるクラスでは、常にコピーしたコレクションを返すようにして外から変更されないようにする
+  - aPerson.courses.push(new Course(name, false));
+  - Personクラスは変更をコントロールできない
