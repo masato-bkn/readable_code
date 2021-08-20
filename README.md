@@ -144,3 +144,32 @@ orders.filter(o => o.priority.higherThan(new Priority("normal")))
 
 - オブジェクトで数値や文字列を隠蔽することはできないか
 - 数値や文字列を値オブジェクトとしてクラス化してしまう
+- 振る舞いを書くことができる
+
+## 問い合わせによる一時変数の置き換え
+- before
+```
+get price() {
+  var basePrice = this._quantity * this._item.price;
+  var discountFactor = 0.98;
+  if (basePrice > 1000) discountFactor -= 0.03;
+  return basePrice * discountFactor;
+}
+```
+
+- after
+```
+get basePrice() {
+  return this._quantity * this._item.price;
+}
+
+get discountFactor() {
+  var discountFactor = 0.98;
+  if (basePrice > 1000) discountFactor -= 0.03;
+  return basePrice * discountFactor
+}
+
+get price() {
+  return this.basePrice * this.discountFactor
+}
+```
