@@ -129,3 +129,18 @@ class Person {
 - コレクションを管理する責任のあるクラスでは、常にコピーしたコレクションを返すようにして外から変更されないようにする
   - aPerson.courses.push(new Course(name, false));
   - Personクラスは変更をコントロールできない
+
+## オブジェクトによるプリモティブの置き換え
+
+- before
+```
+orders.filter(o => "high" === o.priority || "rush" === o.priority)
+```
+
+- after
+```
+orders.filter(o => o.priority.higherThan(new Priority("normal")))
+```
+
+- オブジェクトで数値や文字列を隠蔽することはできないか
+- 数値や文字列を値オブジェクトとしてクラス化してしまう
