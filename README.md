@@ -173,3 +173,24 @@ get price() {
   return this.basePrice * this.discountFactor
 }
 ```
+## クラスの抽出
+- before
+```
+class Person {
+  get officeAreaCode() { return this._officeAreaCode;}
+  get officeNumber() { return this._officeNumber;}
+}
+```
+
+- after
+```
+class Person {
+  get officeAreaCode() { return this._telephoneNumber.areaCode;}
+  get officeNumber() { return this._telephoneNumber.officeNumber;}
+}
+
+class TelephoneNumber {
+  get areaCode() {return this,_areaCode;}
+  get number() {return this,_number;}
+}
+```
