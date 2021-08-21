@@ -194,3 +194,22 @@ class TelephoneNumber {
   get number() {return this,_number;}
 }
 ```
+
+## 委譲の隠蔽
+- before
+```
+manager = aPerson.department.manager;
+```
+
+- after
+```
+manager = aPerson.manager;
+
+class Person {
+  get manager() {
+    return this.department.manager;
+  }
+}
+```
+- 委譲先オブジェクトの変更がクライアントにまで波及することを防ぐ
+- フィールドだけでなく委譲先のフィールド、メソッドもカプセル化の対象になる
