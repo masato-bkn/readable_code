@@ -213,3 +213,19 @@ class Person {
 ```
 - 委譲先オブジェクトの変更がクライアントにまで波及することを防ぐ
 - フィールドだけでなく委譲先のフィールド、メソッドもカプセル化の対象になる
+
+## 関数呼び出しによるインライコードの置き換え
+- before
+```
+let appliesToMass = false;
+for(count of states) {
+  if (s === "MA") appliesToMass = true;
+}
+```
+
+- after
+```
+appliesToMass = status.includes("MA");
+```
+
+- 名前のついた関数はコードの仕組みではなく目的を説明できる
