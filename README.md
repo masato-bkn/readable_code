@@ -229,3 +229,20 @@ appliesToMass = status.includes("MA");
 ```
 
 - 名前のついた関数はコードの仕組みではなく目的を説明できる
+
+## ステートメントのスライド
+- before
+```
+const pricingPlan = retrievePricingPlan();
+const order = retreiveOrder();
+let charge;
+const chargePerUnit = pricingPlan.unit;
+```
+
+- after
+```
+const pricingPlan = retrievePricingPlan();
+const chargePerUnit = pricingPlan.unit;
+const order = retreiveOrder();
+let charge;
+```
