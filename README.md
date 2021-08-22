@@ -246,3 +246,38 @@ const chargePerUnit = pricingPlan.unit;
 const order = retreiveOrder();
 let charge;
 ```
+
+## ループの分離
+- before
+```
+let youngest = people[0] ? people[0].age : Infinity;
+let totalSalary = 0;
+for (const p of people) {
+  if (p.age < youngest) yongest = p.age;
+  totalSalary += p.salary;
+}
+return `youngestAge: $(yongest), totalSalary: ${totalSalary}`;
+```
+- after
+```
+function yongestAge(people) {
+  let youngest = people[0] ? people[0].age : Infinity;
+  for (const p of people) {
+    if (p.age < youngest) yongest = p.age;
+  }
+  return yongest
+}
+
+function totalSalary(people) {
+  if (p.age < youngest) yongest = p.age;
+    totalSalary += p.salary;
+  }
+  return totalSalary
+}
+
+return `youngestAge: $(yongestAge(people)), totalSalary: ${totalSalary(people)}`;
+```
+
+- ループを分離することで、変更すべき処理だけを理解すればよくなる
+- ループの分離はそれ自体が目的ではなく、次のリファクタを準備することにある。
+  - 通常はそれぞれを独立した関数に抽出できないか調べる
