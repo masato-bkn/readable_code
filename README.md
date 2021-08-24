@@ -281,3 +281,32 @@ return `youngestAge: $(yongestAge(people)), totalSalary: ${totalSalary(people)}`
 - ループを分離することで、変更すべき処理だけを理解すればよくなる
 - ループの分離はそれ自体が目的ではなく、次のリファクタを準備することにある。
   - 通常はそれぞれを独立した関数に抽出できないか調べる
+
+
+## 問い合わせによる導出変数の置き換え
+- 変更可能なデータの影響範囲はできる限り小さくする
+- 簡単に計算できる変数は削除できないか考える
+
+- before
+```
+class ProductionPlan {
+  get production () { return this._production }
+  applyAdjustment(anAjustment) {
+    this._adjustments.push(anAjustment)
+    this._production += anAdjustmnet.amount;
+  }
+}
+```
+
+- after
+```
+class ProductionPlan {
+  get production () { return this.calculatedProduction }
+  applyAdjustment(anAjustment) {
+    this._adjustments.push(anAjustment)
+  }
+  get calculatedProduction() {
+    return this._adjustments.reduce((sum, a) => sum + a.amount, 0);
+  }
+}
+```
