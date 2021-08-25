@@ -310,3 +310,58 @@ class ProductionPlan {
   }
 }
 ```
+
+## 参照から値への変更
+- before
+```
+class Product {
+  applyDiscount(arg) { this._price.amount -= arg;}
+}
+```
+
+- after
+```
+class Product {
+  applyDiscount(arg) {
+    this._price = new Money(this._price.amount - arg, this._price.currency;)
+  }
+}
+```
+
+- 値オブジェクトは変更不可なので一般的には使用の把握が容易
+- 変更不可のデータ値をプログラムの他の部分に渡しても、保有側のオブジェクトで、知らぬ間に値が変更される心配はない
+
+- before
+```
+class Person {
+  constructor() {
+    this._telephoneNumber = new TelephoneNumber();
+  }
+
+  get officeAreaCode() {return this._telephoneNumber.areaCode;}
+  set officeAreaCode(arg) {this._telephoneNumber.areaCode = arg;}  
+  get officeNumber() {return this._telephoneNumber.number;}
+  set officeNumber(arg) {this._telephoneNumber.number = arg;}
+}
+
+class TelephoneNumber {
+  get areaCode() {return this._areaCode;}
+  set areaCode(arg) {this._areaCode = arg;}
+
+  get number() {return this._number;}
+  set number(arg) {this._number = arg;}
+}
+```
+
+- after
+```
+class Person {
+  set officeNumber(arg) {
+    this._telephoneNumber = new TelephoneNumber(arg, this.officeNumber);
+  }  
+  set officeAreaCode(arg) {
+    this._telephoneNumber = new TelephoneNumber(this.officeAreaCode, arg);
+  }  
+}
+```
+- beforeの更新メソッドは値オブジェクトに更新できる
