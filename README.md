@@ -365,3 +365,34 @@ class Person {
 }
 ```
 - beforeの更新メソッドは値オブジェクトに更新できる
+
+## 値から参照への変更
+- before
+```
+let customer = new Customer(customerData);
+```
+
+- after
+```
+let customer = customerRepository.get(customerData.id);
+```
+- データをグローバルに保ちたい場合は参照が有効
+
+```
+let _repositoryData;
+
+export function initializa() {
+  _repositoryData = {};
+  _repositoryData.customers = new Map();
+}
+
+export function registoryCustomer(id) {
+  if(!_repositoryData.customers.has(id))
+    _repositoryData.customer.set(id, new Customer(id));
+  return findCustomer(id);
+}
+
+export function findCustomer(id) {
+  return _repositoryData.customer.get(id);
+}
+```
