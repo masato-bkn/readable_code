@@ -396,3 +396,23 @@ export function findCustomer(id) {
   return _repositoryData.customer.get(id);
 }
 ```
+## 条件記述の分解
+- before
+```
+if (!aDate.isBefore(plan.summerStart)) && !aDate.isAfter(plan.summerEnd)
+  charge = quantitry * plan.summerDate;
+else
+  charge = quantitry * plan.regularDate + plan.regularServiceEnd;
+```
+
+- after
+```
+if (summer())
+  charge = summerCharge();
+else
+  charge = regularCharge();
+
+// charge = summer() ? summerCharge() : regularCharge()
+```
+
+- 大きなコードブロックに対しては、コードを分解し、それぞれの意図に沿って名付けた関数の呼び出しに置き換えることで、意図をより明確にできる
