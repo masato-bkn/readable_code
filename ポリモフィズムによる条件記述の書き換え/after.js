@@ -40,15 +40,17 @@ class Rating {
     let result = 2;
     if (this.voyage.zone === "china") result += 1;
     if (this.voyage.zone === "east-indies") result += 1;
-    if (this.voyage.zone === "china" && hasChinaHistory(this.history)) {
-      result += 3;
-      if (this.history.length > 10) result += 1;
-      if (this.voyage.length > 12) result += 1;
-      if (this.voyage.length > 18) result -= 1;
-    } else {
-      if (this.history.length > 8) result += 1;
-      if (this.voyage.length > 14) result -= 1;
+    result += this.voyageAndHistoryLengthFactor()
+
+    return result;
   }
+
+  get voyageAndHistoryLengthFactor() {
+    const result = 0;
+
+    if (this.history.length > 8) result += 1;
+    if (this.voyage.length > 14) result -= 1;
+
     return result;
   }
 
@@ -61,7 +63,19 @@ class ExperoencedChinaRating extends Rating {
   get captainHistoryRisk() {
     const result = super.captainHistoryRisk - 2;    
     return Math.max(result, 0);
-    }
+  }
+
+  // 親クラスとの差分だけ別関数として切り出す
+  get voyageAndHistoryLengthFactor() {
+    const result = 0;
+    result += 3;
+
+    if (this.history.length > 10) result += 1;
+    if (this.voyage.length > 12) result += 1;
+    if (this.voyage.length > 18) result -= 1;
+
+    return result;
+  }
 }
 
 function createRating(voyage, history) {
