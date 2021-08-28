@@ -1,5 +1,5 @@
 function rating(voyage, history) {
-  return new Rating(voyage, history).value;
+  return new createRating(voyage, history).value;
 }
 
 class Rating {
@@ -56,6 +56,14 @@ class Rating {
   get hasChinaHistory() {
     return this.history.some(v => "china" === v.zone);
   }
+}
+
+class ExperoencedChinaRating extends Rating {}
+
+function createRating(voyage, history) {
+  if (voyage.zone == "china" && history.some(v => "china" === v.zone))
+    return new ExperoencedChinaRating(voyage, history);
+  else return new Rating(voyage, history);
 }
 
 const voyage = {zone: "west-indies", length: 10};
