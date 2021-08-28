@@ -438,3 +438,64 @@ function isNotEligibleForDisability() {
 ```
 - 条件判定のコードを統合することで、行なっている判定が実は一つだという意図を明示できる
 - 逆に複数の判定が別々のもので、単一の判定と考えるべきでない場合はこのリファクタは行わない
+
+## ガード説による入れ子の条件記述の置き換え
+- before
+```
+function getPayment() {
+  let result;
+  if (isDead) 
+    result = deadAmount();
+  else {
+    if (isSeparated)
+      result = retiredAmount();
+    else
+      if (isRetired)
+        result = retiredAmount();
+      else
+        result = normalPayAmount();
+        
+  }
+  return result;
+}
+```
+
+- after
+```
+function getPayAmount() {
+  if (isDead) return deadAmount();
+  if (isSeparated) return retiredAmount();
+  if (isRetired) return retiredAmount();
+
+  return normalPayAmount();
+}
+```
+
+- ガード節を使うことでコードの意図をより明確に表現できる
+
+- before
+```
+function adjustedCapital(anInstrument) {
+  let result = 0;
+  if (anInstrument.capital > 0) {
+    if (anInstrument.interestRate > 0 && anInstrument.duration > 0) {
+      result = (anInstrument.income / anInstrument.duration) * anInstrument.adjustmentFactor;
+    }
+  }
+  return result;
+}
+```
+
+- after
+```
+function adjustedCapital(anInstrument) {
+  if (anInstrument.capital <= 0) 
+    || anInstrument.interestRate <= 0
+    || anInstrument.duration <= 0) return 0; 
+
+  return anInstrument.income / anInstrument.duration) * anInstrument.adjustmentFactor;
+}
+```
+
+- 条件を逆にして、ガード節を使う場合が多い
+- 記述を簡略化できないか考えるときは、条件を反転してみることも有効
