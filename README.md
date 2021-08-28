@@ -416,3 +416,25 @@ else
 ```
 
 - 大きなコードブロックに対しては、コードを分解し、それぞれの意図に沿って名付けた関数の呼び出しに置き換えることで、意図をより明確にできる
+
+## 条件記述の統合
+- before
+```
+if (anEmployee.seniority < 2) return 0;
+if (anEmployee.monthsDisabled > 12) return 0;
+if (anEmployee.isPartTime) return 0;
+```
+
+- after
+```
+if (isNotEligibleForDisability()) return 0;
+
+function isNotEligibleForDisability() {
+  return ((anEmployee.seniority < 2)
+    || anEmployee.monthsDisabled > 12
+    || anEmployee.isPartTime
+  );
+}
+```
+- 条件判定のコードを統合することで、行なっている判定が実は一つだという意図を明示できる
+- 逆に複数の判定が別々のもので、単一の判定と考えるべきでない場合はこのリファクタは行わない
