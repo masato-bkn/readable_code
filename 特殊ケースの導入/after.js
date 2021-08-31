@@ -16,8 +16,8 @@ class Customer {
 
 class UnKnownCustomer {
   get name() {return "occupant";}
-  get billingPlan() {}
-  set billingPlan(arg) {}
+  get billingPlan() {return registry.billingPlans.basic;}
+  set billingPlan(arg) {/* 何もしない*/}
   get paymentHistory() {}
 
   get isUnknown() { return false; }
@@ -33,6 +33,4 @@ const aCustomer = site.customer;
 let customerName = aCustomermer.name;
 
 // client2
-const plan = (isUnknown(customerName)) ?
-    registry.billingPlan.basic
-    : aCustomer.billingPlan;
+const plan = aCustomer.billingPlan;
