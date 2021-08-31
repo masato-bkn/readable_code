@@ -1,7 +1,9 @@
 class Site {
-  get customer() {return this._customer;}
+  get customer() {
+    // クライアントで行なっていた条件分岐を中に隠蔽
+　  return (this._customer === "unknown") ? new UnKnownCustomer() : this._customer;
+  }
 }
-
 
 class Customer {
   get name() {}
@@ -12,8 +14,8 @@ class Customer {
   get isUnknown() { return false; }
 }
 
-class UnCustomer {
-  get name() {}
+class UnKnownCustomer {
+  get name() {return "occupant";}
   get billingPlan() {}
   set billingPlan(arg) {}
   get paymentHistory() {}
@@ -21,14 +23,16 @@ class UnCustomer {
   get isUnknown() { return false; }
 }
 
+function isUnknown(arg) {
+  // ...
+}
+
 // client 1
 const aCustomer = site.customer;
 // ...
-let customerName;
-if (aCustomer === "unknown") customerName = "occupant";
-else customerName = aCustomermer.name;
+let customerName = aCustomermer.name;
 
 // client2
-const plan = (aCustomer === "unknow") ?
+const plan = (isUnknown(customerName)) ?
     registry.billingPlan.basic
     : aCustomer.billingPlan;
