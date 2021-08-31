@@ -18,9 +18,15 @@ class UnKnownCustomer {
   get name() {return "occupant";}
   get billingPlan() {return registry.billingPlans.basic;}
   set billingPlan(arg) {/* 何もしない*/}
-  get paymentHistory() {}
 
-  get isUnknown() { return false; }
+  // 特殊ケース用オブジェクトは値オブジェクトなので、常に変更不可にすべき
+  get paymentHistory() {return new NullPaymentHistory();}
+
+  get isUnknown() { return true; }
+}
+
+class NullPaymentHistory {
+  get weeksDeliquantInLastYear() {return 0;}
 }
 
 function isUnknown(arg) {
@@ -30,7 +36,10 @@ function isUnknown(arg) {
 // client 1
 const aCustomer = site.customer;
 // ...
-let customerName = aCustomermer.name;
+let customerName = aCustomer.name;
 
 // client2
 const plan = aCustomer.billingPlan;
+
+// client3
+const weeksDeliquant = aCustomer.paymentHistory.weeksDeliquantInLastYear;
