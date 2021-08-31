@@ -29,10 +29,6 @@ class NullPaymentHistory {
   get weeksDeliquantInLastYear() {return 0;}
 }
 
-function isUnknown(arg) {
-  // ...
-}
-
 // client 1
 const aCustomer = site.customer;
 // ...
