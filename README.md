@@ -509,3 +509,39 @@ function adjustedCapital(anInstrument) {
   - 特殊ケースの判定を簡単な呼び出しに置き換えることができる
   - ポリモフィズム
   - 更新がないのであればクラスでなくオブジェクトリテラルでもよい
+
+## 問い合わせと更新の分離
+- before
+```
+function alertForMiscreant(people) {
+  for (const p of people) {
+    if (p === "Don") {
+      setOffAlarms();
+      return "Don";
+    }
+    if (p === "Jhon") {
+      setOffAlarms();
+      return "Jhon";
+    }
+  }
+}
+```
+
+- after
+```
+function findMiscreant (people) {
+  for (const p of people) {
+    if (p === "Don") {
+      return "Don";
+    }
+    if (p === "Jhon") {
+      return "Jhon";
+    }
+  }
+}
+
+function alertForMiscreant(people) {
+  if (findMiscreant (people) !== "") setOffAlarms();
+}
+```
+- コマンドとクエリの分離原則
