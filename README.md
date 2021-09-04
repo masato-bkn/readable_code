@@ -556,3 +556,16 @@ function alertForMiscreant(people) {
 
 ## セッターの削除
 - セッターを削除することで、変更させないという意図が明確になる
+
+## ファクトリによるコンストラクタの置き換え
+- before
+```
+leadEngineer = new Emplooyee(document.leadEngineer, 'E');
+```
+
+- after
+```
+leadEngineer = createEmplooyee(document.leadEngineer);
+```
+- コード値を理テラス文字列で渡すのは不吉な匂い
+
