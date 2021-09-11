@@ -580,3 +580,23 @@ leadEngineer = createEmplooyee(document.leadEngineer);
 - 継承を使いたい理由が別にあり、その理由がサブクラスよりも有益である場合には委譲は有効
 - 委譲を用いる場合は振り分けロジックと双方向参照による複雑性を追加する必要がある
   - 委譲クラスにもスーパークラスを適用するというアイディア
+
+## 委譲によるスーパークラスの置き換え
+- スーパークラスの関数がサブクラスで意味をなさないのなら、それはスーパークラスの機能を継承によって利用すべきでないことを示唆している
+
+- before
+```
+class List {}
+class Stack extends List {}
+```
+
+- after
+```
+class Stack {
+  constructor() {
+    this._storage = new List();
+  }
+}
+
+class List {}
+```
